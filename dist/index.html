@@ -423,8 +423,6 @@
       .whatsapp { width: min(430px, 100%); min-height: 62px; }
       .whatsapp svg { width: 22px; height: 22px; fill: currentColor; }
       .privacy { margin: 16px auto 0; color: #777d78; font-size: .8rem; }
-      .restart { margin-top: 20px; padding: 8px; border: 0; background: transparent; color: #a5aaa6; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
-
       footer {
         width: min(1180px, calc(100% - 40px));
         margin: 0 auto;
@@ -530,7 +528,6 @@
               Site Profissional - R$ 499,00
             </a>
             <p class="privacy">A mensagem será aberta preenchida no WhatsApp. Você decide quando enviar.</p>
-            <button class="restart" id="restart-button" type="button">Refazer respostas</button>
           </div>
         </section>
       </main>
@@ -675,17 +672,8 @@
         document.getElementById("result-title").focus?.({ preventScroll: true });
       }
 
-      function restartQuiz() {
-        clearTimeout(state.transitionTimer);
-        state.step = -1;
-        state.answers.fill(null);
-        showScreen("start");
-        document.getElementById("start-button").focus({ preventScroll: true });
-      }
-
       document.getElementById("start-button").addEventListener("click", startQuiz);
       document.getElementById("back-button").addEventListener("click", goBack);
-      document.getElementById("restart-button").addEventListener("click", restartQuiz);
       document.getElementById("year").textContent = new Date().getFullYear();
 
       const carousel = document.getElementById("portfolio-carousel");
