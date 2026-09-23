@@ -481,15 +481,15 @@
             </div>
 
             <div class="portrait-wrap" id="portfolio-carousel" role="region" aria-label="Exemplos de sites profissionais" aria-roledescription="carrossel">
-              <img class="carousel-slide active" src="./assets/portfolio-01.jpg" alt="Exemplo de site profissional para fotógrafo" fetchpriority="high" />
-              <img class="carousel-slide" src="./assets/portfolio-02.jpg" alt="Exemplo de site profissional para dentista" loading="lazy" />
-              <img class="carousel-slide" src="./assets/portfolio-03.jpg" alt="Exemplo de site profissional para esteticista" loading="lazy" />
-              <img class="carousel-slide" src="./assets/portfolio-04.jpg" alt="Exemplo de site profissional para banho e tosa" loading="lazy" />
-              <img class="carousel-slide" src="./assets/portfolio-05.jpg" alt="Exemplo de site profissional para barbearia" loading="lazy" />
-              <img class="carousel-slide" src="./assets/portfolio-06.jpg" alt="Exemplo de site profissional para salão de beleza" loading="lazy" />
-              <img class="carousel-slide" src="./assets/portfolio-07.jpg" alt="Exemplo de site profissional para confeitaria" loading="lazy" />
-              <img class="carousel-slide" src="./assets/portfolio-08.jpg" alt="Exemplo de site profissional para lash designer" loading="lazy" />
-              <img class="carousel-slide" src="./assets/portfolio-09.jpg" alt="Exemplo de site profissional para limpeza de estofados" loading="lazy" />
+              <img class="carousel-slide active" src="./assets/portfolio-01.jpg" alt="Exemplo de site profissional para fotógrafo" fetchpriority="high" decoding="async" />
+              <img class="carousel-slide" data-src="./assets/portfolio-02.jpg" alt="Exemplo de site profissional para dentista" decoding="async" />
+              <img class="carousel-slide" data-src="./assets/portfolio-03.jpg" alt="Exemplo de site profissional para esteticista" decoding="async" />
+              <img class="carousel-slide" data-src="./assets/portfolio-04.jpg" alt="Exemplo de site profissional para banho e tosa" decoding="async" />
+              <img class="carousel-slide" data-src="./assets/portfolio-05.jpg" alt="Exemplo de site profissional para barbearia" decoding="async" />
+              <img class="carousel-slide" data-src="./assets/portfolio-06.jpg" alt="Exemplo de site profissional para salão de beleza" decoding="async" />
+              <img class="carousel-slide" data-src="./assets/portfolio-07.jpg" alt="Exemplo de site profissional para confeitaria" decoding="async" />
+              <img class="carousel-slide" data-src="./assets/portfolio-08.jpg" alt="Exemplo de site profissional para lash designer" decoding="async" />
+              <img class="carousel-slide" data-src="./assets/portfolio-09.jpg" alt="Exemplo de site profissional para limpeza de estofados" decoding="async" />
               <button class="carousel-arrow prev" id="carousel-prev" type="button" aria-label="Ver imagem anterior">←</button>
               <button class="carousel-arrow next" id="carousel-next" type="button" aria-label="Ver próxima imagem">→</button>
               <div class="carousel-controls" aria-label="Escolher exemplo de site"></div>
@@ -699,8 +699,18 @@
 
       const dots = [...carouselControls.querySelectorAll(".carousel-dot")];
 
+      function loadSlide(index) {
+        const slide = slides[(index + slides.length) % slides.length];
+        if (!slide.src && slide.dataset.src) {
+          slide.src = slide.dataset.src;
+          delete slide.dataset.src;
+        }
+      }
+
       function showSlide(index) {
         activeSlide = (index + slides.length) % slides.length;
+        loadSlide(activeSlide);
+        loadSlide(activeSlide + 1);
         slides.forEach((slide, slideIndex) => slide.classList.toggle("active", slideIndex === activeSlide));
         dots.forEach((dot, dotIndex) => {
           const isActive = dotIndex === activeSlide;
@@ -734,6 +744,7 @@
         if (document.hidden || !screens.start.classList.contains("active")) clearInterval(carouselTimer);
         else startCarousel();
       });
+      loadSlide(1);
       startCarousel();
 
       function registerWebMCP() {
