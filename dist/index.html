@@ -245,6 +245,12 @@
 
       .microcopy { margin: 14px 0 0 4px; color: #858b87; font-size: 0.86rem; }
 
+      .carousel-shell {
+        position: relative;
+        width: calc(100% - 58px);
+        min-width: 0;
+      }
+
       .portrait-wrap {
         position: relative;
         aspect-ratio: 1 / 1;
@@ -351,8 +357,8 @@
         transform: translateY(-50%) scale(1.06);
       }
 
-      .carousel-arrow.prev { left: 14px; }
-      .carousel-arrow.next { right: 14px; }
+      .carousel-arrow.prev { left: -58px; }
+      .carousel-arrow.next { right: -58px; }
 
       .quiz-card {
         width: min(760px, 100%);
@@ -434,7 +440,8 @@
         main { width: min(100% - 28px, 620px); padding: 14px 0 34px; }
         .start-layout { grid-template-columns: 1fr; gap: 28px; }
         .start-copy { order: 2; }
-        .portrait-wrap { order: 1; border-radius: 24px; }
+        .carousel-shell { order: 1; width: calc(100% - 116px); margin-inline: auto; }
+        .portrait-wrap { border-radius: 24px; }
         h1 { font-size: clamp(2.45rem, 12vw, 4rem); }
         .eyebrow { margin-bottom: 17px; }
         .lead { margin: 19px 0 25px; }
@@ -450,8 +457,9 @@
         .carousel-dot { width: 6px; height: 6px; }
         .carousel-dot.active { width: 17px; }
         .carousel-arrow { width: 40px; height: 40px; font-size: 1.1rem; }
-        .carousel-arrow.prev { left: 9px; }
-        .carousel-arrow.next { right: 9px; }
+        .carousel-shell { width: calc(100% - 104px); }
+        .carousel-arrow.prev { left: -48px; }
+        .carousel-arrow.next { right: -48px; }
         .answer { grid-template-columns: 32px 1fr 18px; padding: 13px; gap: 10px; }
         .answer-label { font-size: .95rem; }
       }
@@ -480,19 +488,21 @@
               <p class="microcopy">Leva menos de 1 minuto.</p>
             </div>
 
-            <div class="portrait-wrap" id="portfolio-carousel" role="region" aria-label="Exemplos de sites profissionais" aria-roledescription="carrossel">
-              <img class="carousel-slide active" src="./assets/portfolio-01.jpg" alt="Exemplo de site profissional para fotógrafo" fetchpriority="high" decoding="async" />
-              <img class="carousel-slide" data-src="./assets/portfolio-02.jpg" alt="Exemplo de site profissional para dentista" decoding="async" />
-              <img class="carousel-slide" data-src="./assets/portfolio-03.jpg" alt="Exemplo de site profissional para esteticista" decoding="async" />
-              <img class="carousel-slide" data-src="./assets/portfolio-04.jpg" alt="Exemplo de site profissional para banho e tosa" decoding="async" />
-              <img class="carousel-slide" data-src="./assets/portfolio-05.jpg" alt="Exemplo de site profissional para barbearia" decoding="async" />
-              <img class="carousel-slide" data-src="./assets/portfolio-06.jpg" alt="Exemplo de site profissional para salão de beleza" decoding="async" />
-              <img class="carousel-slide" data-src="./assets/portfolio-07.jpg" alt="Exemplo de site profissional para confeitaria" decoding="async" />
-              <img class="carousel-slide" data-src="./assets/portfolio-08.jpg" alt="Exemplo de site profissional para lash designer" decoding="async" />
-              <img class="carousel-slide" data-src="./assets/portfolio-09.jpg" alt="Exemplo de site profissional para limpeza de estofados" decoding="async" />
+            <div class="carousel-shell">
+              <div class="portrait-wrap" id="portfolio-carousel" role="region" aria-label="Exemplos de sites profissionais" aria-roledescription="carrossel">
+                <img class="carousel-slide active" src="./assets/portfolio-01.jpg" alt="Exemplo de site profissional para fotógrafo" fetchpriority="high" decoding="async" />
+                <img class="carousel-slide" data-src="./assets/portfolio-02.jpg" alt="Exemplo de site profissional para dentista" decoding="async" />
+                <img class="carousel-slide" data-src="./assets/portfolio-03.jpg" alt="Exemplo de site profissional para esteticista" decoding="async" />
+                <img class="carousel-slide" data-src="./assets/portfolio-04.jpg" alt="Exemplo de site profissional para banho e tosa" decoding="async" />
+                <img class="carousel-slide" data-src="./assets/portfolio-05.jpg" alt="Exemplo de site profissional para barbearia" decoding="async" />
+                <img class="carousel-slide" data-src="./assets/portfolio-06.jpg" alt="Exemplo de site profissional para salão de beleza" decoding="async" />
+                <img class="carousel-slide" data-src="./assets/portfolio-07.jpg" alt="Exemplo de site profissional para confeitaria" decoding="async" />
+                <img class="carousel-slide" data-src="./assets/portfolio-08.jpg" alt="Exemplo de site profissional para lash designer" decoding="async" />
+                <img class="carousel-slide" data-src="./assets/portfolio-09.jpg" alt="Exemplo de site profissional para limpeza de estofados" decoding="async" />
+                <div class="carousel-controls" aria-label="Escolher exemplo de site"></div>
+              </div>
               <button class="carousel-arrow prev" id="carousel-prev" type="button" aria-label="Ver imagem anterior">←</button>
               <button class="carousel-arrow next" id="carousel-next" type="button" aria-label="Ver próxima imagem">→</button>
-              <div class="carousel-controls" aria-label="Escolher exemplo de site"></div>
             </div>
           </div>
         </section>
