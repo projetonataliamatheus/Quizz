@@ -607,6 +607,36 @@
       const progressTrack = document.querySelector("[role='progressbar']");
       const whatsappButton = document.getElementById("whatsapp-button");
 
+      const trackedMetaEvents = new Set();
+      const metaEventStorageKeys = {
+        QuizStarted: "mr_pixel_quiz_started",
+        QuizStep1: "mr_pixel_quiz_step_1",
+        QuizStep2: "mr_pixel_quiz_step_2",
+        QuizStep3: "mr_pixel_quiz_step_3",
+        Lead: "mr_pixel_lead",
+        Contact: "mr_pixel_contact"
+      };
+
+      function trackMetaEvent(eventName, eventType = "custom") {
+        const storageKey = metaEventStorageKeys[eventName];
+        if (!storageKey || typeof window.fbq !== "function") return;
+
+        let alreadyTracked = trackedMetaEvents.has(eventName);
+        try {
+          alreadyTracked = alreadyTracked || window.sessionStorage.getItem(storageKey) === "1";
+        } catch (_) {}
+        if (alreadyTracked) return;
+
+        trackedMetaEvents.add(eventName);
+        try { window.sessionStorage.setItem(storageKey, "1"); } catch (_) {}
+
+        try {
+          if (eventType === "standard") window.fbq("track", eventName);
+          else window.fbq("trackCustom", eventName);
+          console.info("[Meta Pixel] " + eventName + " enviado");
+        } catch (_) {}
+      }
+
       function showScreen(name) {
         Object.entries(screens).forEach(([key, screen]) => screen.classList.toggle("active", key === name));
         if (name === "start") startCarousel();
@@ -615,6 +645,7 @@
       }
 
       function startQuiz() {
+        trackMetaEvent("QuizStarted");
         clearTimeout(state.transitionTimer);
         state.step = 0;
         renderQuestion();
@@ -662,7 +693,10 @@
 
         state.transitionTimer = setTimeout(() => {
           if (state.step < questions.length - 1) {
+            const completedStep = state.step + 1;
             state.step += 1;
+            if (completedStep === 1) trackMetaEvent("QuizStep1");
+            else if (completedStep === 2) trackMetaEvent("QuizStep2");
             renderQuestion();
           } else {
             finishQuiz();
@@ -695,12 +729,18 @@
       }
 
       function finishQuiz() {
+        if (state.step !== questions.length - 1 || !state.answers.every(Boolean)) return;
         whatsappButton.href = buildWhatsAppUrl();
         showScreen("result");
+        trackMetaEvent("QuizStep3");
+        trackMetaEvent("Lead", "standard");
         document.getElementById("result-title").focus?.({ preventScroll: true });
       }
 
       document.getElementById("start-button").addEventListener("click", startQuiz);
+      whatsappButton.addEventListener("click", event => {
+        if (event.isTrusted) trackMetaEvent("Contact", "standard");
+      });
       document.getElementById("back-button").addEventListener("click", goBack);
       document.getElementById("year").textContent = new Date().getFullYear();
 
